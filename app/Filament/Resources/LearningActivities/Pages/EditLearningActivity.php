@@ -18,9 +18,12 @@ class EditLearningActivity extends EditRecord
                 ->label('Save Changes')
                 ->action('save'),
             Action::make('preview')
-                ->url(fn () => route('learning-activities.preview', $this->record))
-                ->openUrlInNewTab()
-                ->color('warning'),
+                ->modalContent(fn ($record) => new \Illuminate\Support\HtmlString('
+                    <iframe src="' . route('learning-activities.preview', $record) . '" width="100%" height="800px" style="border:none; border-radius: 8px;"></iframe>
+                '))
+                ->modalSubmitAction(false)
+                ->modalCancelAction(false)
+                ->modalWidth('7xl'),
             DeleteAction::make(),
         ];
     }
