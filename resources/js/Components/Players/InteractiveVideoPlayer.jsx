@@ -154,7 +154,13 @@ export default function InteractiveVideoPlayer({ data }) {
                                                     
                                                     if (quizSubmitted) {
                                                         if (isAnswerCorrect) {
-                                                            buttonStyle = "bg-green-50 border-green-500 text-green-800 ring-1 ring-green-500";
+                                                            // Only show green if it's correct OR if show_wrong_answer is enabled
+                                                            if (data.settings?.show_wrong_answer !== false || quizSelected === index) {
+                                                                buttonStyle = "bg-green-50 border-green-500 text-green-800 ring-1 ring-green-500";
+                                                            } else {
+                                                                // If hiding wrong answers, don't highlight the correct one if user didn't pick it
+                                                                buttonStyle = "opacity-50 border-gray-200";
+                                                            }
                                                         } else if (quizSelected === index && !isAnswerCorrect) {
                                                             buttonStyle = "bg-red-50 border-red-500 text-red-800 ring-1 ring-red-500";
                                                         } else {
@@ -173,7 +179,7 @@ export default function InteractiveVideoPlayer({ data }) {
                                                             `}
                                                         >
                                                             <span className="font-medium">{answer.text}</span>
-                                                            {quizSubmitted && isAnswerCorrect && <CheckCircle2 className="h-5 w-5 text-green-600" />}
+                                                            {quizSubmitted && isAnswerCorrect && (data.settings?.show_wrong_answer !== false || quizSelected === index) && <CheckCircle2 className="h-5 w-5 text-green-600" />}
                                                             {quizSubmitted && quizSelected === index && !isAnswerCorrect && <XCircle className="h-5 w-5 text-red-600" />}
                                                         </button>
                                                     );
@@ -201,7 +207,9 @@ export default function InteractiveVideoPlayer({ data }) {
                                                         <div className="p-4 bg-red-50 border border-red-100 rounded-lg text-center">
                                                             <p className="text-red-800 font-medium flex items-center justify-center gap-2">
                                                                 <XCircle className="w-5 h-5" />
-                                                                Incorrect. Please try again.
+                                                                {data.settings?.show_wrong_answer !== false 
+                                                                    ? "Incorrect. Please try again." 
+                                                                    : "Incorrect answer."}
                                                             </p>
                                                         </div>
                                                     )}
