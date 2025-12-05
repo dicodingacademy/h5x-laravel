@@ -22,5 +22,8 @@ class LearningActivity extends Model
         'minimum_score' => 'integer',
         'show_wrong_answer' => 'boolean',
     ];
-    //
+    public function modules()
+    {
+        return $this->belongsToMany(Module::class)->withPivot('sort');
+    }
 }
