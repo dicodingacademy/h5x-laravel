@@ -34,6 +34,7 @@ class LearningActivityForm
                                 'flashcards' => 'Flashcards',
                                 'multiple_choices' => 'Multiple Choices',
                                 'interactive_video' => 'Interactive Video',
+                                'fill_the_blank' => 'Fill the Blank',
                             ])
                             ->required()
                             ->default('flashcards')
@@ -158,6 +159,23 @@ class LearningActivityForm
                             ->defaultItems(0)
                             ->reorderableWithButtons()
                             ->cloneable()
+                            ->columnSpanFull(),
+
+                        // Fill the Blank Content
+                        \Filament\Forms\Components\Textarea::make('content.text')
+                            ->label('Text (Use *asterisks* for blanks)')
+                            ->helperText('Example: The *sky* is blue.')
+                            ->rows(5)
+                            ->visible(fn (Get $get) => $get('type') === 'fill_the_blank')
+                            ->required(fn (Get $get) => $get('type') === 'fill_the_blank')
+                            ->columnSpanFull(),
+
+                        Repeater::make('content.distractors')
+                            ->label('Extra Words (Distractors)')
+                            ->schema([
+                                TextInput::make('text')->required(),
+                            ])
+                            ->visible(fn (Get $get) => $get('type') === 'fill_the_blank')
                             ->columnSpanFull(),
                     ]),
             ]);
