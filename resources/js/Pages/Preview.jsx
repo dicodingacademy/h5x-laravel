@@ -7,7 +7,7 @@ import { Activity } from 'lucide-react'; // Assuming Activity icon is needed bas
 
 export default function Preview({ activity }) {
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col">
+        <div className="min-h-screen flex flex-col">
             <Head title={activity.title} /> {/* Keep Head for title, as it's not explicitly removed from imports */}
             {/* Header */}
             <div className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between sticky top-0 z-50">
