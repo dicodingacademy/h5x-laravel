@@ -17,10 +17,6 @@ class EditLearningActivity extends EditRecord
             Action::make('save')
                 ->label('Save Changes')
                 ->action('save'),
-            Action::make('cancel')
-                ->label('Cancel')
-                ->color('gray')
-                ->url($this->getResource()::getUrl('index')),
             Action::make('preview')
                 ->url(fn () => route('learning-activities.preview', $this->record))
                 ->openUrlInNewTab()
