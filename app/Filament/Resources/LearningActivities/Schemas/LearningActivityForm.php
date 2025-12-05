@@ -18,6 +18,7 @@ class LearningActivityForm
     public static function configure(Schema $schema): Schema
     {
         return $schema
+            ->columns(1)
             ->components([
                 Section::make('Metadata')
                     ->schema([
@@ -32,6 +33,7 @@ class LearningActivityForm
                             ->options([
                                 'flashcards' => 'Flashcards',
                                 'multiple_choices' => 'Multiple Choices',
+                                'interactive_video' => 'Interactive Video',
                             ])
                             ->required()
                             ->default('flashcards')
@@ -87,6 +89,72 @@ class LearningActivityForm
                                     ->columnSpanFull(),
                             ])
                             ->visible(fn (Get $get) => $get('type') === 'multiple_choices')
+                            ->columnSpanFull(),
+
+                        // Interactive Video Content
+                        TextInput::make('content.video_url')
+                            ->label('Video URL (HLS/m3u8)')
+                            ->url()
+                            ->placeholder('https://stream.mux.com/...')
+                            ->visible(fn (Get $get) => $get('type') === 'interactive_video')
+                            ->required(fn (Get $get) => $get('type') === 'interactive_video')
+                            ->columnSpanFull(),
+
+                        Section::make('Video Settings')
+                            ->schema([
+                                \Filament\Forms\Components\Toggle::make('content.settings.prevent_seeking')
+                                    ->label('Prevent Seeking')
+                                    ->default(false),
+                                \Filament\Forms\Components\Toggle::make('content.settings.require_completion')
+                                    ->label('Require Completion')
+                                    ->default(true),
+                                \Filament\Forms\Components\Toggle::make('content.settings.auto_play')
+                                    ->label('Auto Play')
+                                    ->default(false),
+                            ])
+                            ->visible(fn (Get $get) => $get('type') === 'interactive_video'),
+
+                        Repeater::make('content.interactions')
+                            ->label('Time-based Interactions')
+                            ->schema([
+                                TextInput::make('time')
+                                    ->label('Time (seconds)')
+                                    ->numeric()
+                                    ->required(),
+                                Select::make('type')
+                                    ->options([
+                                        'fact' => 'Fact',
+                                        'quiz' => 'Quiz',
+                                    ])
+                                    ->reactive()
+                                    ->required(),
+                                
+                                // Fact Content
+                                \Filament\Schemas\Components\Group::make([
+                                    TextInput::make('fact_content.title')
+                                        ->label('Fact Title')
+                                        ->default('Did you know?'),
+                                    RichEditor::make('fact_content.description')
+                                        ->label('Description'),
+                                ])->visible(fn (Get $get) => $get('type') === 'fact'),
+
+                                // Quiz Content
+                                \Filament\Schemas\Components\Group::make([
+                                    RichEditor::make('quiz_content.question')
+                                        ->label('Question'),
+                                    Repeater::make('quiz_content.answers')
+                                        ->schema([
+                                            TextInput::make('text')->required(),
+                                            \Filament\Forms\Components\Toggle::make('is_correct')->default(false),
+                                        ])
+                                        ->minItems(2)
+                                        ->defaultItems(2)
+                                ])->visible(fn (Get $get) => $get('type') === 'quiz'),
+                            ])
+                            ->visible(fn (Get $get) => $get('type') === 'interactive_video')
+                            ->defaultItems(0)
+                            ->reorderableWithButtons()
+                            ->cloneable()
                             ->columnSpanFull(),
                     ]),
             ]);
