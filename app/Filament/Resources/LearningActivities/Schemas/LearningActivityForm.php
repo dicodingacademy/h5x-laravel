@@ -111,6 +111,9 @@ class LearningActivityForm
                                 \Filament\Forms\Components\Toggle::make('content.settings.auto_play')
                                     ->label('Auto Play')
                                     ->default(false),
+                                \Filament\Forms\Components\Toggle::make('content.settings.show_wrong_answer')
+                                    ->label('Show Incorrect Answer')
+                                    ->default(true),
                             ])
                             ->visible(fn (Get $get) => $get('type') === 'interactive_video'),
 
