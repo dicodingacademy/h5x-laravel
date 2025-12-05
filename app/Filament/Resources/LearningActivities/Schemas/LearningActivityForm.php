@@ -35,6 +35,7 @@ class LearningActivityForm
                                 'multiple_choices' => 'Multiple Choices',
                                 'interactive_video' => 'Interactive Video',
                                 'fill_the_blank' => 'Fill the Blank',
+                                'drag_and_reorder' => 'Drag and Reorder', // Added option
                             ])
                             ->required()
                             ->default('flashcards')
@@ -176,6 +177,20 @@ class LearningActivityForm
                                 TextInput::make('text')->required(),
                             ])
                             ->visible(fn (Get $get) => $get('type') === 'fill_the_blank')
+                            ->columnSpanFull(),
+
+                        // Drag and Reorder Content
+                        Repeater::make('content.items')
+                            ->label('Items (In Correct Order)')
+                            ->schema([
+                                TextInput::make('text')
+                                    ->required()
+                                    ->label('Item Text'),
+                            ])
+                            ->visible(fn (Get $get) => $get('type') === 'drag_and_reorder')
+                            ->required(fn (Get $get) => $get('type') === 'drag_and_reorder')
+                            ->addActionLabel('Add Item')
+                            ->reorderableWithButtons()
                             ->columnSpanFull(),
                     ]),
             ]);
