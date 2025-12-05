@@ -12,4 +12,4 @@ Route::get('/learning-activities/{learningActivity}/preview', function (\App\Mod
     return Inertia::render('Preview', [
         'activity' => $learningActivity,
     ]);
-})->name('learning-activities.preview');
+})->name('learning-activities.preview')->middleware('auth');
