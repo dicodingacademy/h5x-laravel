@@ -52,8 +52,8 @@ export default function Show({ module, activity, prev_activity, next_activity, n
 
             {/* Main Content */}
             <main className="flex-grow">
-                <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-                    <div className="bg-white shadow sm:rounded-lg overflow-hidden">
+                <div className="max-w-4xl mx-auto m-8 ">
+                    <div className="bg-white shadow sm:rounded-lg overflow-hidden p-8">
                         {renderContent()}
                     </div>
                 </div>
