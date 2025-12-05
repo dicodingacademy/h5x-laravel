@@ -35,6 +35,9 @@ migrate:
 fresh:
 	$(APP) php artisan migrate:fresh --seed
 
+migrate-refresh:
+	$(APP) php artisan migrate:refresh
+
 # Composer
 composer:
 	$(APP) composer $(cmd)
