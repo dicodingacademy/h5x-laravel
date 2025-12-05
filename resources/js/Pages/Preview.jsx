@@ -3,6 +3,7 @@ import FlashcardPlayer from "@/Components/Players/FlashcardPlayer";
 import MultipleChoicePlayer from "@/Components/Players/MultipleChoicePlayer";
 import InteractiveVideoPlayer from "@/Components/Players/InteractiveVideoPlayer";
 import FillBlankPlayer from "@/Components/Players/FillBlankPlayer";
+import DragReorderPlayer from "@/Components/Players/DragReorderPlayer";
 import { Activity } from 'lucide-react'; // Assuming Activity icon is needed based on the new JSX
 
 export default function Preview({ activity }) {
@@ -37,6 +38,10 @@ export default function Preview({ activity }) {
 
                 {activity.type === 'fill_the_blank' && (
                     <FillBlankPlayer data={activity.content} />
+                )}
+
+                {activity.type === 'drag_and_reorder' && (
+                    <DragReorderPlayer items={activity.content?.items || []} />
                 )}
             </div>
         </div>
