@@ -1,0 +1,13 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:80"
+      - "5173:5173" # Vite
+    volumes:
+      - .:/app
+    environment:
+      SERVER_NAME: ":80"
+    tty: true
