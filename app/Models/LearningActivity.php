@@ -11,12 +11,16 @@ class LearningActivity extends Model
         'slug',
         'type',
         'content',
+        'minimum_score',
+        'show_wrong_answer',
         'is_active',
     ];
 
     protected $casts = [
         'content' => 'array',
         'is_active' => 'boolean',
+        'minimum_score' => 'integer',
+        'show_wrong_answer' => 'boolean',
     ];
     //
 }
