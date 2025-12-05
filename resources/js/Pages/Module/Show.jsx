@@ -4,6 +4,7 @@ import InteractiveVideoPlayer from '@/Components/Players/InteractiveVideoPlayer'
 import MultipleChoicePlayer from '@/Components/Players/MultipleChoicePlayer';
 import FillBlankPlayer from '@/Components/Players/FillBlankPlayer';
 import FlashcardPlayer from '@/Components/Players/FlashcardPlayer';
+import DragReorderPlayer from '@/Components/Players/DragReorderPlayer';
 
 export default function Show({ module, activity, prev_activity, next_activity, next_module, prev_module }) {
     const renderContent = () => {
@@ -20,6 +21,8 @@ export default function Show({ module, activity, prev_activity, next_activity, n
                 );
             case 'fill_the_blank':
                 return <FillBlankPlayer data={activity.content} />;
+            case 'drag_and_reorder':
+                return <DragReorderPlayer items={activity.content?.items || []} />;
             case 'flashcards':
                 return <FlashcardPlayer cards={activity.content?.cards || []} />;
             default:
