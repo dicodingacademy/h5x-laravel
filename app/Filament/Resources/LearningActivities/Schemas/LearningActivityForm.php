@@ -62,6 +62,7 @@ class LearningActivityForm
                                     ->columnSpanFull(),
                                 FileUpload::make('image')
                                     ->image()
+                                    ->disk('public')
                                     ->directory('h5x-images'),
                             ])
                             ->visible(fn (Get $get) => $get('type') === 'flashcards')
@@ -83,7 +84,6 @@ class LearningActivityForm
                                             ->fixIndistinctState(),
                                     ])
                                     ->minItems(2)
-                                    ->grid(2)
                                     ->columnSpanFull(),
                             ])
                             ->visible(fn (Get $get) => $get('type') === 'multiple_choices')
